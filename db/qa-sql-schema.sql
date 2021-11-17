@@ -69,5 +69,5 @@ CREATE TABLE users (
 -- Foreign Keys
 -- ---
 
-ALTER TABLE answers ADD FOREIGN KEY (question_id) REFERENCES questions (question_id) ON DELETE CASCADE;
-ALTER TABLE photos ADD FOREIGN KEY (answer_id) REFERENCES answers (answer_id) ON DELETE CASCADE;
+ALTER TABLE answers ADD FOREIGN KEY (question_id) REFERENCES questions (id) ON DELETE CASCADE;
+ALTER TABLE photos ADD FOREIGN KEY (answer_id) REFERENCES answers (id) ON DELETE CASCADE;
