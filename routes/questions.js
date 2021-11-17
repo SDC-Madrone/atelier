@@ -4,8 +4,7 @@ const db = require('../db');
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
-  db.query('SELECT * from users', [], (err, result) => {
-    console.log('received');
+  db.query('SELECT * from questions', [], (err, result) => {
     if (err) {
       return next(err);
     }
