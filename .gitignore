@@ -102,3 +102,10 @@ dist
 
 # TernJS port file
 .tern-port
+
+# DB config
+db/config.js
+
+# Data
+data/raw-data
+data/questions-reader.js
