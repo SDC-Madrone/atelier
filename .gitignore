@@ -105,3 +105,7 @@ dist
 
 # DB config
 db/config.js
+
+# Data
+data/raw-data
+data/questions-reader.js
