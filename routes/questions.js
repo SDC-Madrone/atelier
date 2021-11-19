@@ -5,7 +5,8 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
   const client = await db.getClient();
-  const { product_id, page, count } = req.query;
+  const { product_id: productId } = req.query;
+  const { page, count } = req.query;
   let queryResult;
   try {
     await client.query('BEGIN');
@@ -13,7 +14,7 @@ router.get('/', async (req, res, next) => {
       SELECT
         questions.id AS question_id,
         questions.body AS question_body,
-        questions.date_written AS question_date,
+        to_timestamp(questions.date_written/1000) AS question_date,
         questions.asker_name AS asker_name,
         questions.helpful AS question_helpfulness,
         questions.reported AS reported,
@@ -30,15 +31,16 @@ router.get('/', async (req, res, next) => {
                 FROM answers WHERE answers.question_id = questions.id
               ) as answer
         ) AS answers
-      FROM questions WHERE product_id=$1 AND reported=false`;
-    const queryValues = [product_id];
+      FROM questions WHERE product_id=$1 AND reported=false
+      ORDER BY questions.date_written DESC`;
+    const queryValues = [productId];
     queryResult = await client.query(queryText, queryValues);
     await client.query('COMMIT');
   } catch (e) {
     await client.query('ROLLBACK');
     throw e;
   } finally {
-    res.status(200).json({ product_id, results: queryResult.rows });
+    res.status(200).json({ product_id: productId, results: queryResult.rows });
     client.release();
   }
 });
