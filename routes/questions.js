@@ -24,7 +24,7 @@ router.get('/', async (req, res, next) => {
                 SELECT
                   answers.id AS id,
                   answers.body AS body,
-                  answers.date_written AS date,
+                  to_timestamp(answers.date_written/1000) AS date,
                   answers.answerer_name AS answerer_name,
                   answers.helpful AS helpfulness,
                   array(SELECT url FROM photos WHERE photos.answer_id=answers.id) as photos
@@ -32,8 +32,10 @@ router.get('/', async (req, res, next) => {
               ) as answer
         ) AS answers
       FROM questions WHERE product_id=$1 AND reported=false
-      ORDER BY questions.date_written DESC`;
-    const queryValues = [productId];
+      ORDER BY questions.date_written DESC
+      LIMIT $2
+      OFFSET (($3 - 1) * $2)`;
+    const queryValues = [productId, count, page];
     queryResult = await client.query(queryText, queryValues);
     await client.query('COMMIT');
   } catch (e) {
