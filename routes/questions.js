@@ -5,23 +5,41 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
   const client = await db.getClient();
-  let response;
+  const { product_id, page, count } = req.query;
+  let queryResult;
   try {
     await client.query('BEGIN');
-    const queryText =
-      'INSERT INTO questions(body, asker_name, user_id) VALUES ($1, $2, $3) RETURNING id';
-    response = await client.query(queryText, ['review2', 'bindman', 1]);
-    const insertAnswerText =
-      'INSERT INTO answers(question_id, body, answerer_name, user_id) VALUES ($1, $2, $3, $4) RETURNING id';
-    const insertAnswerValues = [response.rows[0].id, 'answer2', 'ted', 1];
-    response = await client.query(insertAnswerText, insertAnswerValues);
+    const queryText = `
+      SELECT
+        questions.id AS question_id,
+        questions.body AS question_body,
+        questions.date_written AS question_date,
+        questions.asker_name AS asker_name,
+        questions.helpful AS question_helpfulness,
+        questions.reported AS reported,
+        (
+          SELECT json_object_agg(id, answer)
+              FROM (
+                SELECT
+                  answers.id AS id,
+                  answers.body AS body,
+                  answers.date_written AS date,
+                  answers.answerer_name AS answerer_name,
+                  answers.helpful AS helpfulness,
+                  array(SELECT url FROM photos WHERE photos.answer_id=answers.id) as photos
+                FROM answers WHERE answers.question_id = questions.id
+              ) as answer
+        ) AS answers
+      FROM questions WHERE product_id=$1 AND reported=false`;
+    const queryValues = [product_id];
+    queryResult = await client.query(queryText, queryValues);
     await client.query('COMMIT');
   } catch (e) {
     await client.query('ROLLBACK');
     throw e;
   } finally {
+    res.status(200).json({ product_id, results: queryResult.rows });
     client.release();
-    res.status(201).send();
   }
 });
 

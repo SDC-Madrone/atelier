@@ -19,7 +19,7 @@ CREATE TABLE questions (
   date_written bigint NOT NULL,
   asker_name varchar(60) NOT NULL,
   asker_email text NOT NULL,
-  reported boolean NULL DEFAULT false,
+  reported boolean NOT NULL DEFAULT false,
   helpful int NOT NULL DEFAULT 0
 );
 
