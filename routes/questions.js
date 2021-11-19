@@ -42,9 +42,13 @@ router.get('/', async (req, res, next) => {
     await client.query('ROLLBACK');
     throw e;
   } finally {
-    res.status(200).json({ product_id: productId, results: queryResult.rows });
+    res
+      .status(200)
+      .json({ product_id: productId, page, count, results: queryResult.rows });
     client.release();
   }
 });
+
+router.get('/', (req, res, next) => {});
 
 module.exports = router;
