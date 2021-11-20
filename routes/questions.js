@@ -4,13 +4,9 @@ const db = require('../db');
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
-  const client = await db.getClient();
   const { product_id: productId } = req.query;
   const { page, count } = req.query;
-  let queryResult;
-  try {
-    await client.query('BEGIN');
-    const queryText = `
+  const queryText = `
       SELECT
         questions.id AS question_id,
         questions.body AS question_body,
@@ -35,20 +31,32 @@ router.get('/', async (req, res, next) => {
       ORDER BY questions.date_written DESC
       LIMIT $2
       OFFSET (($3 - 1) * $2)`;
-    const queryValues = [productId, count, page];
-    queryResult = await client.query(queryText, queryValues);
-    await client.query('COMMIT');
-  } catch (e) {
-    await client.query('ROLLBACK');
-    throw e;
-  } finally {
-    res
-      .status(200)
-      .json({ product_id: productId, page, count, results: queryResult.rows });
-    client.release();
-  }
+  const queryValues = [productId, count, page];
+  await db
+    .query(queryText, queryValues)
+    .then((response) => {
+      res.status(200).json({
+        product_id: productId,
+        page,
+        count,
+        results: response.rows,
+      });
+    })
+    .catch(() => res.status(400).send());
 });
 
-router.get('/', (req, res, next) => {});
-
+router.put('/:question_id/helpful', (req, res, next) => {
+  const { question_id: questionId } = req.params;
+  const queryText = `
+    UPDATE questions
+    SET helpful = helpful + 1
+    WHERE id=$1`;
+  const queryValues = [questionId];
+  db.query(queryText, queryValues)
+    .then((result) => {
+      console.log(result);
+      res.status(204).send();
+    })
+    .catch((error) => console.log(error) || res.status(409).send());
+});
 module.exports = router;
