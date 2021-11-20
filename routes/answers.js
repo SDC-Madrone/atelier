@@ -3,7 +3,7 @@ const db = require('../db');
 
 const router = express.Router();
 
-router.put('/:answer_id/helpful', (req, res, next) => {
+router.put('/:answer_id/helpful', (req, res) => {
   const { answer_id: answerId } = req.params;
   const queryText = `
     UPDATE answers
@@ -17,7 +17,7 @@ router.put('/:answer_id/helpful', (req, res, next) => {
     .catch(() => res.status(400).send());
 });
 
-router.put('/:answer_id/report', (req, res, next) => {
+router.put('/:answer_id/report', (req, res) => {
   const { answer_id: answerId } = req.params;
   const queryText = `
     UPDATE answers

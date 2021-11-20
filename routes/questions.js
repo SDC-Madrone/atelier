@@ -47,7 +47,7 @@ router.get('/', async (req, res, next) => {
     .catch(() => res.status(500).send());
 });
 
-router.get('/:question_id/answers', async (req, res, next) => {
+router.get('/:question_id/answers', async (req, res) => {
   const { question_id: questionId } = req.params;
   const { page, count } = req.query;
   const queryText = `
@@ -76,7 +76,7 @@ router.get('/:question_id/answers', async (req, res, next) => {
     .catch(() => res.status(400).send());
 });
 
-router.put('/:question_id/helpful', (req, res, next) => {
+router.put('/:question_id/helpful', (req, res) => {
   const { question_id: questionId } = req.params;
   const queryText = `
     UPDATE questions
@@ -90,7 +90,7 @@ router.put('/:question_id/helpful', (req, res, next) => {
     .catch(() => res.status(400).send());
 });
 
-router.put('/:question_id/report', (req, res, next) => {
+router.put('/:question_id/report', (req, res) => {
   const { question_id: questionId } = req.params;
   const queryText = `
     UPDATE questions

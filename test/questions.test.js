@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const { expect } = require('chai');
 const request = require('supertest');
 const app = require('../app');
@@ -23,7 +24,7 @@ describe('GET /questions', function () {
         .end((err, res) => {
           if (err) return err;
           expect(res.statusCode).to.equal(404);
-          done();
+          return done();
         });
     });
   });
@@ -32,7 +33,6 @@ describe('GET /questions', function () {
     // product id ranges from 1 to 1000011
     const productId = Math.floor(Math.random() * (1000011 - 1 + 1) + 1);
     let response;
-    console.log('Testing product_id: ', productId);
 
     before((done) => {
       request(app)
