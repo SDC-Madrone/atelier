@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/', async (req, res, next) => {
   const { product_id: productId } = req.query;
   const { page, count } = req.query;
-  if (!productId) return res.status(400).send('No product id provided.');
+  if (!productId) return res.status(400).send('No product_id provided.');
   const queryText = `
       SELECT
         questions.id AS question_id,
@@ -36,7 +36,7 @@ router.get('/', async (req, res, next) => {
   await db
     .query(queryText, queryValues)
     .then((response) => {
-      if (!response.rowCount) return res.status(404).send('No results found');
+      if (!response.rowCount) return res.status(404).send('No results found.');
       return res.status(200).json({
         product_id: productId,
         page,
@@ -50,6 +50,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:question_id/answers', async (req, res) => {
   const { question_id: questionId } = req.params;
   const { page, count } = req.query;
+  if (!questionId) return res.status(400).send('No question_id provided.');
   const queryText = `
       SELECT
         answers.id AS answer_id,
@@ -66,7 +67,8 @@ router.get('/:question_id/answers', async (req, res) => {
   await db
     .query(queryText, queryValues)
     .then((response) => {
-      res.status(200).json({
+      if (!response.rowCount) return res.status(404).send('No results found.');
+      return res.status(200).json({
         question: questionId,
         page,
         count,
