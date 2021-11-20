@@ -3,7 +3,7 @@ const db = require('../db');
 
 const router = express.Router();
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res) => {
   const { product_id: productId } = req.query;
   const { page, count } = req.query;
   if (!productId) return res.status(400).send('No product_id provided.');
@@ -75,7 +75,7 @@ router.get('/:question_id/answers', async (req, res) => {
         results: response.rows,
       });
     })
-    .catch(() => res.status(400).send());
+    .catch(() => res.status(500).send());
 });
 
 router.put('/:question_id/helpful', (req, res) => {
