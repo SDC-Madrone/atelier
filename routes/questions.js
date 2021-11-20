@@ -6,6 +6,7 @@ const router = express.Router();
 router.get('/', async (req, res, next) => {
   const { product_id: productId } = req.query;
   const { page, count } = req.query;
+  if (!productId) return res.status(400).send('No product id provided.');
   const queryText = `
       SELECT
         questions.id AS question_id,
@@ -35,14 +36,15 @@ router.get('/', async (req, res, next) => {
   await db
     .query(queryText, queryValues)
     .then((response) => {
-      res.status(200).json({
+      if (!response.rowCount) return res.status(404).send('No results found');
+      return res.status(200).json({
         product_id: productId,
         page,
         count,
         results: response.rows,
       });
     })
-    .catch(() => res.status(400).send());
+    .catch(() => res.status(500).send());
 });
 
 router.get('/:question_id/answers', async (req, res, next) => {
