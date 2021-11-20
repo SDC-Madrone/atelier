@@ -2,9 +2,11 @@ const { expect } = require('chai');
 const request = require('supertest');
 const app = require('../app');
 
-describe('GET /questions', () => {
+describe('GET /questions', function () {
+  this.timeout(10000);
+
   describe('Errant responses', () => {
-    it('returns a status code of 400 if no product_id is provided', (done) => {
+    it('Returns a status code of 400 if no product_id is provided', (done) => {
       request(app)
         .get('/qa/questions')
         .end((err, res) => {
@@ -12,9 +14,9 @@ describe('GET /questions', () => {
           expect(res.statusCode).to.equal(400);
           return done();
         });
-    }).timeout(10000);
+    });
 
-    it('returns a status code of 404 if an invalid product_id is provided', (done) => {
+    it('Returns a status code of 404 if an invalid product_id is provided', (done) => {
       request(app)
         .get('/qa/questions')
         .query({ product_id: 120000000 })
@@ -26,14 +28,13 @@ describe('GET /questions', () => {
     });
   });
 
-  // product id ranges from 1 to 1000011
   describe('Valid product id', () => {
-    let productId;
+    // product id ranges from 1 to 1000011
+    const productId = Math.floor(Math.random() * (1000011 - 1 + 1) + 1);
     let response;
+    console.log('Testing product_id: ', productId);
 
     before((done) => {
-      productId = Math.floor(Math.random() * (1000011 - 1 + 1) + 1);
-      console.log('Testing product_id: ', productId);
       request(app)
         .get('/qa/questions')
         .query({ product_id: productId })
@@ -44,19 +45,60 @@ describe('GET /questions', () => {
         });
     });
 
-    it('returns a status code of 200 if a valid product_id is provided', () => {
+    it('Returns a status code of 200', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('responds with a json object', () => {
+    it('Responds with a json object', () => {
       expect(response.headers['content-type']).to.include('application/json');
       expect(response.body).to.be.an('object');
     });
 
-    it('responds with the correct properties at the top-level', () => {
+    it('Responds with the correct properties at the top-level with the right product id', () => {
       expect(response.body).to.have.property('product_id', `${productId}`);
       expect(response.body).to.have.property('results');
       expect(response.body.results).to.be.an('array');
     });
+
+    describe('With page and count', () => {
+      const page = 1;
+      const count = 3;
+      before((done) => {
+        request(app)
+          .get('/qa/questions')
+          .query({ product_id: productId, page, count })
+          .end((err, res) => {
+            if (err) return err;
+            response = res;
+            return done();
+          });
+      });
+
+      it('Returns a status code of 200', () => {
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('Responds with a json object', () => {
+        expect(response.headers['content-type']).to.include('application/json');
+        expect(response.body).to.be.an('object');
+      });
+
+      it('responds with the correct properties at the top-level, including page and count', () => {
+        expect(response.body).to.have.all.keys(
+          'product_id',
+          'page',
+          'count',
+          'results'
+        );
+        expect(response.body).to.have.property('product_id', `${productId}`);
+        expect(response.body.results).to.be.an('array');
+      });
+
+      it('responds with the correct number of results based on count parameter', () => {
+        expect(response.body.results).to.have.lengthOf.at.most(count);
+      });
+    });
   });
 });
+
+// TO DO: add additional tests to confirm it returns the right nested shape, as well as the correct results, not just shape
