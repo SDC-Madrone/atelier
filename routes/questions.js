@@ -53,10 +53,9 @@ router.put('/:question_id/helpful', (req, res, next) => {
     WHERE id=$1`;
   const queryValues = [questionId];
   db.query(queryText, queryValues)
-    .then((result) => {
-      console.log(result);
+    .then(() => {
       res.status(204).send();
     })
-    .catch((error) => console.log(error) || res.status(409).send());
+    .catch(() => res.status(409).send());
 });
 module.exports = router;
