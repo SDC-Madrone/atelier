@@ -24,7 +24,7 @@ router.get('/', async (req, res, next) => {
                   answers.answerer_name AS answerer_name,
                   answers.helpful AS helpfulness,
                   array(SELECT url FROM photos WHERE photos.answer_id=answers.id) as photos
-                FROM answers WHERE answers.question_id = questions.id
+                FROM answers WHERE answers.question_id = questions.id and reported=false
               ) as answer
         ) AS answers
       FROM questions WHERE product_id=$1 AND reported=false
