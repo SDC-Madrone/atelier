@@ -82,12 +82,29 @@ router.put('/:question_id/report', async (req, res) => {
 router.post('/', async (req, res) => {
   const { body, name, email, product_id: productId } = req.body;
   if (!(body && name && email && productId)) {
-    return res.status(400).send('Incomplete request body');
+    return res.status(400).send('Incomplete request.');
   }
   const data = { body, name, email, productId };
   data.date = Date.now();
   try {
-    const result = await question.create(data);
+    await question.create(data);
+    return res.status(201).send();
+  } catch (e) {
+    console.error(e);
+    return res.status(500).send();
+  }
+});
+
+router.post('/:question_id/answers', async (req, res) => {
+  const { question_id: questionId } = req.params;
+  const { body, name, email, photos } = req.body;
+  if (!(body && name && email)) {
+    return res.status(400).send('Incomplete request');
+  }
+  const data = { body, name, email, productId, photos };
+  data.date = Date.now();
+  try {
+    await answer.create(data);
     return res.status(201).send();
   } catch (e) {
     console.error(e);
