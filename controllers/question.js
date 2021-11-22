@@ -21,6 +21,7 @@ router.get('/', async (req, res) => {
       results: result.rows,
     });
   } catch (e) {
+    console.log(e);
     return res.status(500).send();
   }
 });
@@ -39,6 +40,7 @@ router.get('/:question_id/answers', async (req, res) => {
       results: result.rows,
     });
   } catch (e) {
+    console.error(e);
     return res.status(500).send();
   }
 });
@@ -52,6 +54,7 @@ router.put('/:question_id/helpful', async (req, res) => {
     }
     return res.status(204).send();
   } catch (e) {
+    console.error(e);
     return res.status(500).send();
   }
 });
@@ -65,6 +68,7 @@ router.put('/:question_id/report', async (req, res) => {
     }
     return res.status(204).send();
   } catch (e) {
+    console.error(e);
     return res.status(500).send();
   }
 });
@@ -74,10 +78,13 @@ router.post('/', async (req, res) => {
   if (!(body && name && email && productId)) {
     return res.status(400).send('Incomplete request body');
   }
+  const data = { body, name, email, productId };
+  data.date = Date.now();
   try {
-    await question.create(req.body);
+    const result = await question.create(data);
     return res.status(201).send();
   } catch (e) {
+    console.error(e);
     return res.status(500).send();
   }
 });

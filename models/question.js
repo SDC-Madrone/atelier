@@ -58,3 +58,13 @@ module.exports.reportQuestionById = async (questionId) => {
   const result = await db.query(queryText, queryValues);
   return result;
 };
+
+module.exports.create = async (data) => {
+  const { productId, body, date, name, email } = data;
+  const queryText = `
+    INSERT INTO questions (product_id, body, date_written, asker_name, asker_email)
+    VALUES ($1, $2, $3, $4, $5)`;
+  const queryValues = [productId, body, date, name, email];
+  const result = await db.query(queryText, queryValues);
+  return result;
+};
