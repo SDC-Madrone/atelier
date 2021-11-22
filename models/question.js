@@ -18,7 +18,15 @@ module.exports.getQuestionsByProductId = async (questionId, page, count) => {
               to_timestamp(answers.date_written/1000) AS date,
               answers.answerer_name AS answerer_name,
               answers.helpful AS helpfulness,
-              array(SELECT url FROM photos WHERE photos.answer_id=answers.id) as photos
+              (
+                SELECT json_agg(photo)
+                  FROM(
+                    SELECT
+                      photos.id,
+                      photos.url
+                    FROM photos where photos.answer_id=answers.id
+                  ) as photo
+              ) as photos
             FROM answers WHERE answers.question_id = questions.id and reported=false
         ) as answer
       ) AS answers
