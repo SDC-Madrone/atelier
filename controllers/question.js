@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
       results: result.rows,
     });
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return res.status(500).send();
   }
 });
