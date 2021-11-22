@@ -16,8 +16,8 @@ router.get('/', async (req, res) => {
     if (!result.rowCount) return res.status(404).send('No results found.');
     return res.status(200).json({
       product_id: productId,
-      page,
-      count,
+      page: Number(page),
+      count: Number(count),
       results: result.rows,
     });
   } catch (e) {
@@ -34,8 +34,8 @@ router.get('/:question_id/answers', async (req, res) => {
     if (!result.rowCount) return res.status(404).send('No results found.');
     return res.status(200).json({
       question: questionId,
-      page,
-      count,
+      page: Number(page),
+      count: Number(count),
       results: result.rows,
     });
   } catch (e) {
@@ -47,8 +47,9 @@ router.put('/:question_id/helpful', async (req, res) => {
   const { question_id: questionId } = req.params;
   try {
     const result = await question.addQuestionHelpfulById(questionId);
-    if (!result.rowCount)
+    if (!result.rowCount) {
       return res.status(400).send('No matching entries found.');
+    }
     return res.status(204).send();
   } catch (e) {
     return res.status(500).send();
@@ -59,9 +60,23 @@ router.put('/:question_id/report', async (req, res) => {
   const { question_id: questionId } = req.params;
   try {
     const result = await question.reportQuestionById(questionId);
-    if (!result.rowCount)
+    if (!result.rowCount) {
       return res.status(400).send('No matching entries found');
+    }
     return res.status(204).send();
+  } catch (e) {
+    return res.status(500).send();
+  }
+});
+
+router.post('/', async (req, res) => {
+  const { body, name, email, product_id: productId } = req.body;
+  if (!(body && name && email && productId)) {
+    return res.status(400).send('Incomplete request body');
+  }
+  try {
+    await question.create(req.body);
+    return res.status(201).send();
   } catch (e) {
     return res.status(500).send();
   }
