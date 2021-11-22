@@ -1,6 +1,6 @@
 const express = require('express');
-const questionRouter = require('./questions');
-const answerRouter = require('./answers');
+const questionRouter = require('./question');
+const answerRouter = require('./answer');
 
 const router = express.Router();
 
