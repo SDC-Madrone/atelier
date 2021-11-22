@@ -1,6 +1,11 @@
 const db = require('../db');
 
-module.exports.getQuestionsByProductId = async (questionId, page, count) => {
+module.exports.getQuestionsByProductId = (
+  questionId,
+  page,
+  count,
+  client = db
+) => {
   const queryText = `
     SELECT
       questions.id AS question_id,
@@ -35,36 +40,32 @@ module.exports.getQuestionsByProductId = async (questionId, page, count) => {
       LIMIT $2
       OFFSET (($3 - 1) * $2)`;
   const queryValues = [questionId, count, page];
-  const result = await db.query(queryText, queryValues);
-  return result;
+  return client.query(queryText, queryValues);
 };
 
-module.exports.addQuestionHelpfulById = async (questionId) => {
+module.exports.addQuestionHelpfulById = (questionId, client = db) => {
   const queryText = `
     UPDATE questions
     SET helpful = helpful + 1
     WHERE id=$1`;
   const queryValues = [questionId];
-  const result = await db.query(queryText, queryValues);
-  return result;
+  return client.query(queryText, queryValues);
 };
 
-module.exports.reportQuestionById = async (questionId) => {
+module.exports.reportQuestionById = (questionId, client = db) => {
   const queryText = `
     UPDATE questions
     SET reported = true
     WHERE id=$1`;
   const queryValues = [questionId];
-  const result = await db.query(queryText, queryValues);
-  return result;
+  return client.query(queryText, queryValues);
 };
 
-module.exports.create = async (data) => {
+module.exports.create = (data, client = db) => {
   const { productId, body, date, name, email } = data;
   const queryText = `
     INSERT INTO questions (product_id, body, date_written, asker_name, asker_email)
     VALUES ($1, $2, $3, $4, $5)`;
   const queryValues = [productId, body, date, name, email];
-  const result = await db.query(queryText, queryValues);
-  return result;
+  return client.query(queryText, queryValues);
 };
