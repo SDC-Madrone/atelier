@@ -8,7 +8,15 @@ module.exports.getAnswersByQuestionId = async (questionId, page, count) => {
         to_timestamp(answers.date_written/1000) AS date,
         answers.answerer_name AS answered_name,
         answers.helpful AS helpfulness,
-        array(SELECT url FROM photos WHERE photos.answer_id=answers.id) as photos
+        (
+          SELECT json_agg(photo)
+            FROM(
+              SELECT
+                photos.id,
+                photos.url
+              FROM photos where photos.answer_id=answers.id
+            ) as photo
+        ) as photos
       FROM answers WHERE question_id=$1 AND reported=false
       ORDER BY answers.date_written DESC
       LIMIT $2

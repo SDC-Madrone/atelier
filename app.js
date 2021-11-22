@@ -4,7 +4,8 @@ const app = express();
 
 const router = require('./controllers');
 
-app.use(express.json({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/qa', router);
 
