@@ -14,6 +14,12 @@ router.get('/', async (req, res) => {
       count
     );
     if (!result.rowCount) return res.status(404).send('No results found.');
+    result.rows.forEach((q) => {
+      if (!q.answers) return;
+      Object.keys(q.answers).forEach((a) => {
+        q.answers[a].date = new Date(q.answers[a].date).toISOString();
+      });
+    });
     return res.status(200).json({
       product_id: productId,
       page: Number(page),
