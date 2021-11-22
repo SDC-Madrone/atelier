@@ -44,18 +44,16 @@ router.get('/:question_id/answers', async (req, res) => {
   }
 });
 
-router.put('/:question_id/helpful', (req, res) => {
+router.put('/:question_id/helpful', async (req, res) => {
   const { question_id: questionId } = req.params;
-  const queryText = `
-    UPDATE questions
-    SET helpful = helpful + 1
-    WHERE id=$1`;
-  const queryValues = [questionId];
-  db.query(queryText, queryValues)
-    .then(() => {
-      res.status(204).send();
-    })
-    .catch(() => res.status(400).send());
+  try {
+    const result = await question.setQuestionHelpful(questionId);
+    if (!result.rowCount)
+      return res.status(400).send('No matching entries found.');
+    return res.status(204).send();
+  } catch (e) {
+    return res.status(500).send();
+  }
 });
 
 router.put('/:question_id/report', (req, res) => {
