@@ -47,7 +47,7 @@ router.get('/:question_id/answers', async (req, res) => {
 router.put('/:question_id/helpful', async (req, res) => {
   const { question_id: questionId } = req.params;
   try {
-    const result = await question.setQuestionHelpful(questionId);
+    const result = await question.setQuestionHelpfulById(questionId);
     if (!result.rowCount)
       return res.status(400).send('No matching entries found.');
     return res.status(204).send();
@@ -56,18 +56,16 @@ router.put('/:question_id/helpful', async (req, res) => {
   }
 });
 
-router.put('/:question_id/report', (req, res) => {
+router.put('/:question_id/report', async (req, res) => {
   const { question_id: questionId } = req.params;
-  const queryText = `
-    UPDATE questions
-    SET reported = true
-    WHERE id=$1`;
-  const queryValues = [questionId];
-  db.query(queryText, queryValues)
-    .then(() => {
-      res.status(204).send();
-    })
-    .catch(() => res.status(400).send());
+  try {
+    const result = await question.reportQuestionById(questionId);
+    if (!result.rowCount)
+      return res.status(400).send('No matching entries found');
+    return res.status(204).send();
+  } catch (e) {
+    return res.status(500).send();
+  }
 });
 
 module.exports = router;

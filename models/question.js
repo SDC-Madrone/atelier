@@ -31,13 +31,22 @@ module.exports.getQuestionsByProductId = async (questionId, page, count) => {
   return result;
 };
 
-module.exports.setQuestionHelpful = async (questionId) => {
+module.exports.setQuestionHelpfulById = async (questionId) => {
   const queryText = `
     UPDATE questions
     SET helpful = helpful + 1
     WHERE id=$1`;
   const queryValues = [questionId];
   const result = await db.query(queryText, queryValues);
-  console.log(result);
+  return result;
+};
+
+module.exports.reportQuestionById = async (questionId) => {
+  const queryText = `
+    UPDATE questions
+    SET reported = true
+    WHERE id=$1`;
+  const queryValues = [questionId];
+  const result = await db.query(queryText, queryValues);
   return result;
 };
