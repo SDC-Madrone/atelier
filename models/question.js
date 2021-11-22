@@ -31,7 +31,7 @@ module.exports.getQuestionsByProductId = async (questionId, page, count) => {
   return result;
 };
 
-module.exports.setQuestionHelpfulById = async (questionId) => {
+module.exports.addQuestionHelpfulById = async (questionId) => {
   const queryText = `
     UPDATE questions
     SET helpful = helpful + 1

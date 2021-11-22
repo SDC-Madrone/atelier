@@ -1,5 +1,4 @@
 const express = require('express');
-const db = require('../db');
 const { question, answer } = require('../models');
 
 const router = express.Router();
@@ -47,7 +46,7 @@ router.get('/:question_id/answers', async (req, res) => {
 router.put('/:question_id/helpful', async (req, res) => {
   const { question_id: questionId } = req.params;
   try {
-    const result = await question.setQuestionHelpfulById(questionId);
+    const result = await question.addQuestionHelpfulById(questionId);
     if (!result.rowCount)
       return res.status(400).send('No matching entries found.');
     return res.status(204).send();
