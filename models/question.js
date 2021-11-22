@@ -32,10 +32,10 @@ module.exports.getQuestionsByProductId = (
                     FROM photos where photos.answer_id=answers.id
                   ) as photo
               ) as photos
-            FROM answers WHERE answers.question_id = questions.id and reported=false
+            FROM answers WHERE answers.question_id=questions.id and answers.reported=false ORDER BY answers.date_written DESC
         ) as answer
       ) AS answers
-      FROM questions WHERE product_id=$1 AND reported=false
+      FROM questions WHERE questions.product_id=$1 AND questions.reported=false
       ORDER BY questions.date_written DESC
       LIMIT $2
       OFFSET (($3 - 1) * $2)`;
