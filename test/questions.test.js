@@ -6,7 +6,7 @@ const app = require('../app');
 describe('GET /questions', function () {
   this.timeout(10000);
 
-  describe('Errant responses', () => {
+  describe('Errant requests', () => {
     it('Returns a status code of 400 if no product_id is provided', (done) => {
       request(app)
         .get('/qa/questions')
@@ -86,8 +86,8 @@ describe('GET /questions', function () {
 
       it('responds with the correct properties at the top-level, including page and count', () => {
         expect(response.body).to.have.property('product_id', `${productId}`);
-        expect(response.body).to.have.property('page', `${page}`);
-        expect(response.body).to.have.property('count', `${count}`);
+        expect(response.body).to.have.property('page', page);
+        expect(response.body).to.have.property('count', count);
         expect(response.body).to.have.property('results');
         expect(response.body.results).to.be.an('array');
       });
@@ -172,8 +172,8 @@ describe('GET /questions/:question_id/answers', function () {
 
       it('responds with the correct properties at the top-level, including page and count', () => {
         expect(response.body).to.have.property('question', `${questionId}`);
-        expect(response.body).to.have.property('page', `${page}`);
-        expect(response.body).to.have.property('count', `${count}`);
+        expect(response.body).to.have.property('page', page);
+        expect(response.body).to.have.property('count', count);
         expect(response.body).to.have.property('results');
         expect(response.body.results).to.be.an('array');
       });
