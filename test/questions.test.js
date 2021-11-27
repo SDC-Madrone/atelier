@@ -18,13 +18,18 @@ describe('GET /questions', function () {
     });
 
     // product id ranges from 1 to 1000011
-    it('Returns a status code of 404 if an invalid product_id is provided', (done) => {
+    it('Returns a status code of 200, but an empty results array for product_id with no questions', (done) => {
       request(app)
         .get('/qa/questions')
         .query({ product_id: 589406 })
         .end((err, res) => {
           if (err) return err;
-          expect(res.statusCode).to.equal(404);
+          expect(res.statusCode).to.equal(200);
+          expect(res.headers['content-type']).to.include('application/json');
+          expect(res.body).to.be.an('object');
+          expect(res.body).to.have.property('product_id', '589406');
+          expect(res.body).to.have.property('results').that.is.an('array').that
+            .is.empty;
           return done();
         });
     });
@@ -55,7 +60,7 @@ describe('GET /questions', function () {
       expect(response.body).to.be.an('object');
     });
 
-    it('Responds with the correct properties at the top-level with the right product id', () => {
+    it('Responds with the correct properties and types at the top-level', () => {
       expect(response.body).to.have.property('product_id', `${productId}`);
       expect(response.body).to.have.property('results');
       expect(response.body.results).to.be.an('array');
