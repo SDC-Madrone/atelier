@@ -54,7 +54,7 @@ router.get('/:question_id/answers', async (req, res) => {
       return res.status(404).send('No results found.');
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       question: questionId,
       page: Number(page),
       count: Number(count),
