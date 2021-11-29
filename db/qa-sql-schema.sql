@@ -62,10 +62,10 @@ CREATE TABLE photos (
 ALTER TABLE answers ADD FOREIGN KEY (question_id) REFERENCES questions (id) ON DELETE CASCADE;
 ALTER TABLE photos ADD FOREIGN KEY (answer_id) REFERENCES answers (id) ON DELETE CASCADE;
 
-CREATE INDEX idx_photos_answer_id ON photos(answer_id);
-CREATE INDEX idx_answers_question_id ON answers(question_id);
-CREATE INDEX idx_answers_reported ON answers(reported);
 CREATE INDEX idx_questions_product_id ON questions(product_id);
 CREATE INDEX idx_questions_reported ON questions(reported);
 CREATE INDEX idx_questions_date_written ON questions(date_written);
+CREATE INDEX idx_answers_question_id ON answers(question_id);
+CREATE INDEX idx_answers_reported ON answers(reported);
 CREATE INDEX idx_answers_date_written ON answers(date_written);
+CREATE INDEX idx_photos_answer_id ON photos(answer_id);

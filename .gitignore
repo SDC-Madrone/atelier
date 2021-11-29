@@ -111,4 +111,5 @@ data/raw-data
 data/questions-reader.js
 
 # Test queries
-testqueries.txt
+testqueries.sql
+drop-indexes.sql

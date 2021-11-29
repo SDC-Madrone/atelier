@@ -11,7 +11,7 @@ module.exports.getAnswersByQuestionId = (
         answers.id AS answer_id,
         answers.body AS body,
         to_timestamp(answers.date_written/1000) AS date,
-        answers.answerer_name AS answered_name,
+        answers.answerer_name AS answerer_name,
         answers.helpful AS helpfulness,
         (
           SELECT json_agg(photo)
