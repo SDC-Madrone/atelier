@@ -109,3 +109,6 @@ db/config.js
 # Data
 data/raw-data
 data/questions-reader.js
+
+# Test queries
+testqueries.txt
