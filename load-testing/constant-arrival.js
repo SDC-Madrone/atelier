@@ -3,7 +3,7 @@ import { sleep } from 'k6';
 
 export const options = {
   scenarios: {
-    constant_request_rate: {
+    rps_1000: {
       executor: 'constant-arrival-rate',
       rate: 1000,
       timeUnit: '1s', // 1000 iterations per second, i.e. 1000 RPS
