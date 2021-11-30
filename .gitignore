@@ -113,3 +113,5 @@ data/questions-reader.js
 # Test queries
 testqueries.sql
 drop-indexes.sql
+
+*.pem
