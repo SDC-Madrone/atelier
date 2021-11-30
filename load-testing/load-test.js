@@ -19,7 +19,6 @@ let productId;
 export default function () {
   productId = Math.floor(Math.random() * (1000011 - 1 + 1) + 1);
   http.get(`${API_BASE_URL}/questions?product_id=${productId}`);
-  sleep(1);
 }
 
 /*
