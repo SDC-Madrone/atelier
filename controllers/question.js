@@ -55,9 +55,9 @@ router.get('/:question_id/answers', async (req, res) => {
   try {
     const result = await answer.getAnswersByQuestionId(questionId, page, count);
 
-    if (!result.rowCount) {
+    /* if (!result.rowCount) {
       return res.status(404).send('No results found.');
-    }
+     */}
 
     return res.status(200).json({
       question: questionId,
