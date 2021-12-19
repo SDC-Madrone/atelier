@@ -17,11 +17,11 @@ Retrieves a list of questions for a particular product. This list does not inclu
 
 #### Query parameters
 
-| Parameter  | Type    | Description                                               |
-| :--------- | :------ | :-------------------------------------------------------- |
-| product_id | integer | Specifies the product for which to retrieve questions.    |
-| page       | integer | Selects the page of results to return. Default 1.         |
-| count      | integer | Specifies how many results per page to return. Default 5. |
+| Parameter    | Type    | Description                                               |
+| :----------- | :------ | :-------------------------------------------------------- |
+| `product_id` | integer | Specifies the product for which to retrieve questions.    |
+| `page`       | integer | Selects the page of results to return. Default 1.         |
+| `count`      | integer | Specifies how many results per page to return. Default 5. |
 
 #### Sample response
 
@@ -89,16 +89,16 @@ Returns answers for a given question. This list does not include any reported an
 
 #### Path parameters
 
-| Parameter   | Type    | Description                                             |
-| :---------- | :------ | :------------------------------------------------------ |
-| question_id | integer | Required ID of the question for wich answers are needed |
+| Parameter     | Type    | Description                                             |
+| :------------ | :------ | :------------------------------------------------------ |
+| `question_id` | integer | Required ID of the question for wich answers are needed |
 
 #### Query parameters
 
 | Parameter | Type    | Description                                               |
 | :-------- | :------ | :-------------------------------------------------------- |
-| page      | integer | Selects the page of results to return. Default 1.         |
-| count     | integer | Specifies how many results per page to return. Default 5. |
+| `page`    | integer | Selects the page of results to return. Default 1.         |
+| `count`   | integer | Specifies how many results per page to return. Default 5. |
 
 #### Sample response
 
@@ -149,12 +149,12 @@ Adds a question for the given product
 
 #### Body parameters
 
-| Parameter  | Type    | Description                                                 |
-| :--------- | :------ | :---------------------------------------------------------- |
-| body       | text    | Text of question being asked                                |
-| name       | text    | Username for question asker                                 |
-| email      | text    | Email address for question asker                            |
-| product_id | integer | Required ID of the Product for which the question is posted |
+| Parameter    | Type    | Description                                                 |
+| :----------- | :------ | :---------------------------------------------------------- |
+| `body`       | text    | Text of question being asked                                |
+| `name`       | text    | Username for question asker                                 |
+| `email`      | text    | Email address for question asker                            |
+| `product_id` | integer | Required ID of the Product for which the question is posted |
 
 #### Sample response
 
@@ -168,18 +168,18 @@ Adds an answer for the given question
 
 #### Path parameters
 
-| Parameter   | Type    | Description                                             |
-| :---------- | :------ | :------------------------------------------------------ |
-| question_id | integer | Required ID of the question to which to post the answer |
+| Parameter     | Type    | Description                                             |
+| :------------ | :------ | :------------------------------------------------------ |
+| `question_id` | integer | Required ID of the question to which to post the answer |
 
 #### Body Parameters
 
 | Parameter | Type     | Description                                         |
 | :-------- | :------- | :-------------------------------------------------- |
-| body      | text     | Text of question being asked                        |
-| name      | text     | Username for question asker                         |
-| email     | text     | Email address for question asker                    |
-| photos    | [ text ] | An array of urls corresponding to images to display |
+| `body`    | text     | Text of question being asked                        |
+| `name`    | text     | Username for question asker                         |
+| `email`   | text     | Email address for question asker                    |
+| `photos`  | [ text ] | An array of urls corresponding to images to display |
 
 #### Sample response
 
@@ -193,9 +193,9 @@ Updates a question to show it was found helpful.
 
 #### Path parameters
 
-| Parameter   | Type    | Description                           |
-| :---------- | :------ | :------------------------------------ |
-| question_id | integer | Required ID of the question to update |
+| Parameter     | Type    | Description                           |
+| :------------ | :------ | :------------------------------------ |
+| `question_id` | integer | Required ID of the question to update |
 
 #### Sample response
 
@@ -209,9 +209,9 @@ Updates a question to show it was reported. Note, this action does not delete th
 
 #### Path parameters
 
-| Parameter   | Type    | Description                           |
-| :---------- | :------ | :------------------------------------ |
-| question_id | integer | Required ID of the question to update |
+| Parameter     | Type    | Description                           |
+| :------------ | :------ | :------------------------------------ |
+| `question_id` | integer | Required ID of the question to update |
 
 #### Sample response
 
@@ -225,9 +225,9 @@ Updates an answer to show it was found helpful.
 
 #### Query parameters
 
-| Parameter | Type    | Description                         |
-| :-------- | :------ | :---------------------------------- |
-| answer_id | integer | Required ID of the answer to update |
+| Parameter   | Type    | Description                         |
+| :---------- | :------ | :---------------------------------- |
+| `answer_id` | integer | Required ID of the answer to update |
 
 #### Sample response
 
@@ -241,9 +241,9 @@ Updates an answer to show it has been reported. Note, this action does not delet
 
 #### Path parameters
 
-| Parameter | Type    | Description                         |
-| :-------- | :------ | :---------------------------------- |
-| answer_id | integer | Required ID of the answer to update |
+| Parameter   | Type    | Description                         |
+| :---------- | :------ | :---------------------------------- |
+| `answer_id` | integer | Required ID of the answer to update |
 
 #### Sample response
 
