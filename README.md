@@ -9,9 +9,7 @@ To use this API, you must create a GitHub API Token and attach it in every reque
 
 Your token must be created with the following scopes: `read:org`, `user`, `read:user`, `user:email`, `user:follow`.
 
-## API documentation
-
-### List questions
+## List questions
 
 **`GET` /qa/questions**
 
@@ -83,7 +81,7 @@ Retrieves a list of questions for a particular product. This list does not inclu
 }
 ```
 
-### List answers
+## List answers
 
 **`GET` /qa/questions/:question_id/answers**
 
@@ -143,7 +141,7 @@ Returns answers for a given question. This list does not include any reported an
 }
 ```
 
-### Add question
+## Add question
 
 **`POST` /qa/questions**
 
@@ -162,7 +160,7 @@ Adds a question for the given product
 
 `Status: 201 CREATED`
 
-### Add answer
+## Add answer
 
 **`POST` /qa/questions/:question_id/answers**
 
@@ -187,7 +185,7 @@ Adds an answer for the given question
 
 `Status: 201 CREATED`
 
-### Mark question as helpful
+## Mark question as helpful
 
 **`PUT` /qa/questions/:question_id/helpful**
 
@@ -203,7 +201,7 @@ Updates a question to show it was found helpful.
 
 `Status: 204 NO CONTENT`
 
-### Report question
+## Report question
 
 **`PUT` /qa/questions/:question_id/report**
 
@@ -219,7 +217,7 @@ Updates a question to show it was reported. Note, this action does not delete th
 
 `Status: 204 NO CONTENT`
 
-### Mark answer as helpful
+## Mark answer as helpful
 
 **`PUT` /qa/answers/:answer_id/helpful**
 
@@ -235,7 +233,7 @@ Updates an answer to show it was found helpful.
 
 `Status: 204 NO CONTENT`
 
-#### Report answer
+## Report answer
 
 **`PUT` /qa/answers/:answer_id/report**
 
