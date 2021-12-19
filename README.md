@@ -1,6 +1,6 @@
 # atelier
 
-Microservice and API for the Questions & Answers module of an ecommerce web
+Microservice and REST API for the Questions & Answers module of an ecommerce web
 application, built to handle high traffic. Maximum throughput of ~5,000 requests per second.
 
 ## Authentication
