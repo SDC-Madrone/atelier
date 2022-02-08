@@ -18,15 +18,6 @@ router.get('/', async (req, res) => {
       count
     );
 
-    /* if (!result.rowCount) {
-      return res.status(404).send('No results found.');
-    }
-
-    There is no way from Q&A server to distinguish between an invalid product ID
-    and a valid product Id that does not have any Q&A, and both will result in a query result with 0 rows.
-    So, rather than returning a 404 if !result.rowCount, return a 200 with an empty results array.
-    */
-
     result.rows.forEach((q) => {
       if (!q.answers) return;
       Object.keys(q.answers).forEach((a) => {
@@ -54,10 +45,6 @@ router.get('/:question_id/answers', async (req, res) => {
   }
   try {
     const result = await answer.getAnswersByQuestionId(questionId, page, count);
-
-    /* if (!result.rowCount) {
-      return res.status(404).send('No results found.');
-     } */
 
     return res.status(200).json({
       question: questionId,

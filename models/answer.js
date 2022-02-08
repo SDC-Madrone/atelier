@@ -27,7 +27,7 @@ module.exports.getAnswersByQuestionId = (
       LIMIT $2
       OFFSET (($3 - 1) * $2)`;
   const queryValues = [questionId, count, page];
-  return client.query(queryText, queryValues); // delegates to db pool if no client provided
+  return client.query(queryText, queryValues);
 };
 
 module.exports.addAnswerHelpfulById = (answerId, client = db) => {
@@ -36,7 +36,7 @@ module.exports.addAnswerHelpfulById = (answerId, client = db) => {
     SET helpful = helpful + 1
     WHERE id=$1`;
   const queryValues = [answerId];
-  return client.query(queryText, queryValues); // delegates to db pool if no client provided
+  return client.query(queryText, queryValues);
 };
 
 module.exports.reportAnswerById = (answerId, client = db) => {
@@ -45,7 +45,7 @@ module.exports.reportAnswerById = (answerId, client = db) => {
     SET reported = true
     WHERE id=$1`;
   const queryValues = [answerId];
-  return client.query(queryText, queryValues); // delegates to db pool if no client provided
+  return client.query(queryText, queryValues);
 };
 
 module.exports.create = (data, client = db) => {
@@ -55,5 +55,5 @@ module.exports.create = (data, client = db) => {
     VALUES ($1, $2, $3, $4, $5)
     RETURNING id`;
   const queryValues = [questionId, body, date, name, email];
-  return client.query(queryText, queryValues); // delegates to db pool if no client provided
+  return client.query(queryText, queryValues);
 };

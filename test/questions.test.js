@@ -17,7 +17,6 @@ describe('GET /questions', function () {
         });
     });
 
-    // product id ranges from 1 to 1000011
     it('Returns a status code of 200, but an empty results array for product_id with no questions', (done) => {
       request(app)
         .get('/qa/questions')
@@ -36,7 +35,6 @@ describe('GET /questions', function () {
   });
 
   describe('Valid product id', () => {
-    // product id ranges from 1 to 1000011
     const productId = Math.floor(Math.random() * (1000011 - 1 + 1) + 1);
     console.log('productId: ', productId);
     let response;
@@ -253,8 +251,6 @@ describe('GET /questions', function () {
   });
 });
 
-// TO DO: add additional tests to confirm it returns the right nested shape, as well as the correct results, not just shape
-
 describe('GET /questions/:question_id/answers', function () {
   this.timeout(10000);
 
@@ -271,7 +267,6 @@ describe('GET /questions/:question_id/answers', function () {
   });
 
   describe('Valid product id', () => {
-    // product id ranges from 1 to  3518963
     const questionId = Math.floor(Math.random() * (3518963 - 1 + 1) + 1);
     console.log('questionId: ', questionId);
     let response;

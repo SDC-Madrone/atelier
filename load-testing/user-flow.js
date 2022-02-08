@@ -6,10 +6,10 @@ export const options = {
     'constant-rps': {
       executor: 'constant-arrival-rate',
       rate: 1000,
-      timeUnit: '1s', // 1000 iterations per second, i.e. 1000 RPS
+      timeUnit: '1s',
       duration: '1m',
-      preAllocatedVUs: 1000, // how large the initial pool of VUs would be
-      maxVUs: 2500, // if the preAllocatedVUs are not enough, we can initialize more
+      preAllocatedVUs: 1000,
+      maxVUs: 2500,
     },
   },
 };
@@ -19,7 +19,6 @@ const API_BASE_URL = 'http://localhost:8080/qa';
 
 export default function () {
   group('simple user journey', (_) => {
-    // Get questions
     const idGetQuestions = Math.floor(Math.random() * (1000011 - 1 + 1) + 1);
     const resGetQuestions = http.get(
       `${API_BASE_URL}/questions?product_id=${idGetQuestions}`
@@ -29,7 +28,6 @@ export default function () {
     });
     sleep(SLEEP_DURATION);
 
-    // Get answers request
     const idGetAnswers = Math.floor(Math.random() * (3518963 - 1 + 1) + 1);
     const resGetAnswers = http.get(
       `${API_BASE_URL}/questions/${idGetAnswers}/answers`
@@ -39,7 +37,6 @@ export default function () {
     });
     sleep(SLEEP_DURATION);
 
-    // Mark a question as helpful
     const idQuestionHelpful = Math.floor(Math.random() * (3518963 - 1 + 1) + 1);
     const resQuestionHelpful = http.put(
       `${API_BASE_URL}/questions/${idQuestionHelpful}/helpful`
@@ -49,7 +46,6 @@ export default function () {
     });
     sleep(SLEEP_DURATION);
 
-    // Report a question
     const idReportQuestion = Math.floor(Math.random() * (3518963 - 1 + 1) + 1);
     const resReportQuestion = http.put(
       `${API_BASE_URL}/questions/${idReportQuestion}/report`
@@ -59,7 +55,6 @@ export default function () {
     });
     sleep(SLEEP_DURATION);
 
-    // Mark answer as helpful
     const idAnswerHelpful = Math.floor(Math.random() * (6902277 - 1 + 1) + 1);
     const resAnswerHelpful = http.put(
       `${API_BASE_URL}/answers/${idAnswerHelpful}/helpful`
@@ -69,7 +64,6 @@ export default function () {
     });
     sleep(SLEEP_DURATION);
 
-    // Report an answer
     const idReportAnswer = Math.floor(Math.random() * (6902277 - 1 + 1) + 1);
     const resReportAnswer = http.put(
       `${API_BASE_URL}/answers/${idReportAnswer}/report`

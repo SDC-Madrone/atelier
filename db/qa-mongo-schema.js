@@ -1,15 +1,11 @@
 const mongoose = require('mongoose');
 
-// User schema
 const userSchema = mongoose.schema({
-  // By default, Mongoose adds an _id property to schema
   name: String,
   email: String,
 });
 
-// Question schema
 const questionSchema = mongoose.schema({
-  // By default, Mongoose adds an _id property to schema
   questionBody: String,
   questionDate: { type: Date, default: Date.now },
   askerName: String,
@@ -33,9 +29,7 @@ const questionSchema = mongoose.schema({
   ],
 });
 
-// Answer schema
 const answerSchema = mongoose.schema({
-  // By default, Mongoose adds an _id property to schema
   body: String,
   date: { type: Date, default: Date.now },
   answererName: String,
